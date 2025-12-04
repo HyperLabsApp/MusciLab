@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MusicLab - CREA LA TUA CANZONE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="top-banner" role="banner">
+        <div class="banner-content">
+          <img id="bannerAppLogo" class="banner-logo" src="LogoApp.png" alt="Logo App" />
+          <div id="bannerTitle" class="banner-title" aria-live="polite">CREA LA TUA CANZONE</div>
+          <img id="bannerCenterLogo" class="banner-logo" src="logo-bianco-curno.png" alt="Logo Centro" />
+        </div>
+      </div>
+      <header class="header">
+        <div class="header-left">
+          <div class="brand"></div>
+        </div>
+        <div class="assistant-hero">
+          <div id="avatarCircle" class="avatar-circle" aria-hidden="true">ML</div>
+          <div class="avatar-stack">
+            <div id="avatarImageContainer" class="avatar-video-container">
+              <img id="avatarImage" class="avatar-image-el" src="avatar.png" alt="Avatar" />
+            </div>
+            <div id="avatarVideoContainer" class="avatar-video-container is-hidden" aria-hidden="true">
+              <video id="avatarVideo" class="avatar-video-el" playsinline muted></video>
+            </div>
+          </div>
+          <div class="assistant-info">
+            <div id="avatarName" class="assistant-title">DoReMilla</div>
+            <div class="assistant-status"><span class="status-dot"></span> Pronta ad aiutarti</div>
+          </div>
+        </div>
+        <div class="header-right"></div>
+        <!-- Overlay neve che cade -->
+        <div class="snow" aria-hidden="true">
+          <span class="flake"></span><span class="flake"></span><span class="flake"></span><span class="flake"></span>
+          <span class="flake"></span><span class="flake"></span><span class="flake"></span><span class="flake"></span>
+          <span class="flake"></span><span class="flake"></span><span class="flake"></span><span class="flake"></span>
+          <span class="flake"></span><span class="flake"></span><span class="flake"></span><span class="flake"></span>
+          <span class="flake"></span><span class="flake"></span><span class="flake"></span><span class="flake"></span>
+        </div>
+      </header>
+
+      <div id="emailGate" class="email-gate" role="dialog" aria-modal="true" aria-label="Email richiesta" style="display:none">
+        <div class="email-card">
+          <div class="email-hero">
+           <img src="LogoApp.png" alt="Logo" class="banner-logo" />
+            <p></p>
+            <!--<div class="email-badge">Curno AI Christmas Sound</div>-->
+          </div>
+          <h2 class="email-title">Ciao, sono DoReMilla!</h2>
+          <h2 class="email-title">Vuoi creare la tua canzone di Natale?</h2>
+          <p><hr></p>
+          <p class="email-desc">Segui pochi semplici passi per ottenere il link con il tuo jingle</p>
+          <br>
+          <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">1) Scarica l’app Curnopiù</p>
+          <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">2) Crea il tuo profilo</p>
+          <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">3) Inserisci la tua mail</p>          
+          <div class="email-fields">
+            <input id="emailInput" class="email-input icon-email" type="email" placeholder="es. nome@dominio.it" aria-label="Indirizzo email" />
+            <br><p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">4) Riscatta il voucher in app e inserisci il codice qui di seguito</p>
+            <input id="emailCodeInput" class="email-input icon-code" type="text" placeholder="Voucher" aria-label="Voucher" />
+          </div>
+          <button id="emailConfirmBtn" class="email-btn" type="button">Conferma</button>
+          <span id="emailError" class="email-error" aria-live="polite" style="display:none"></span>
+        </div>
+      </div>
+
+      <div id="otpGate" class="email-gate" role="dialog" aria-modal="true" aria-label="OTP richiesta" style="display:none">
+        <div class="email-card">
+          <h2 class="email-title">Conferma il consenso</h2>
+          <p class="email-desc">Ottimo! Hai ricevuto un codice OTP all’email da te indicata. </p>
+          <p class="email-desc">Inseriscilo qui e dai conferma</p>
+          <div class="email-fields">
+            <input id="otpInput" class="email-input icon-code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Codice OTP (6 cifre)" aria-label="Codice OTP" />
+          </div>
+          <button id="otpConfirmBtn" class="email-btn" type="button">Conferma</button>
+          <span id="otpError" class="email-error" aria-live="polite" style="display:none"></span>
+        </div>
+      </div>
+
+      <div id="gdprPanel" class="gdpr-panel" style="display:none; position:fixed; inset:0; z-index:25; padding:20px; background: rgba(0,0,0,0.38); backdrop-filter: blur(6px);">
+        <div style="max-width:800px; margin:20px auto; max-height:70vh; overflow:auto; padding:16px; border:1px solid #ccc; border-radius:12px; background:#fff; color:#000; font-size:12px; line-height:1.5; white-space:pre-wrap;">
+          <h3 style="margin:0 0 8px; font-size:16px;">Informativa sul trattamento dati</h3>
+          <p style="text-align: justify;">In adempimento agli obblighi previsti dall’art. 13 del Regolamento Europeo 2016/679 in applicazione dal 25 maggio 2018 (General Data Protection Regulation, “GDPR”) e dalla normativa nazionale vigente in materia di protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonché alla libera circolazione di tali dati, il Titolare del trattamento Consorzio Proprietari del Centro Commerciale di Curno curno.pr@legalmail.it, P.IVA 02113200162 con sede in Via Enrico Fermi, 1, 24035 - Curno (BG), contattabile a tali fini presso gli uffici di Direzione del Centro Commerciale,  email info@centrocommercialecurno.it  (di seguito “Titolare”) oppure presso il Responsabile per la protezione di tali dati (Data Protection Officer, “DPO”) nominato dal Titolare ai sensi e per gli effetti degli artt. 37-39 GDPR, Inprivacy Srl, email: info@inprivacy.it,  informa che i dati personali conferiti dal soggetto cui gli stessi sono riferiti (di seguito “Interessato”), direttamente o indirettamente, saranno trattati in osservanza ai principi di necessità, correttezza, liceità, trasparenza, riservatezza, integrità, esattezza, completezza, pertinenza, minimizzazione, limitazione delle finalità e limitazione della conservazione degli stessi nel rispetto delle finalità dichiarate, secondo quanto previsto dagli artt. 5 e 6 del citato GDPR. Il trattamento dei dati personali necessariamente raccolti* (file audio del minore ed eventuali dati di contatto del soggetto avente la responsabilità genitoriale ,mail o tel. nonchè nome, cognome e QR code)** è finalizzato a consentire la regolare partecipazione all’evento in oggetto,  avente quale oggetto la promozione del Centro Commerciale Curno, l’eventuale acquisizione di nuovi clienti  ed è perciò giuridicamente basato sull’art. 6, par. 1, lett. b), lett. c) e lett. f), nonché per l’art 9 par 2° (specificando che il sw di intelligenza artificiale non assocerà il minore procedendo alla cancellazione del file, utilizzato solo “in locale” mantenendo l’elaborato per l’eventuale trasmissione al genitore), in difetto di consenso al trattamento per finalità di marketing e/o profilazione (art. 6, par. 1, lett. a), consistenti nell’invio di e-mail di carattere promozionale e/o rispettivamente per la ricezione dell’elaborato musicale non pregiudicherà la partecipazione del minore all’attività. Il trattamento degli stessi è finalizzato alla gestione ottimale dell’erogazione di servizi resi dal Titolare alla propria clientela ed effettuato con modalità prevalentemente automatizzate, per mezzo di sistemi informatici e/o su supporti cartacei, da parte di addetti espressamente designati e debitamente istruiti dal Titolare e/o da Responsabili nominati da quest’ultimo (elenco consultabile presso la direzione del Centro Commerciale). Il conferimento di tali dati è facoltativo ma in caso di diniego il Titolare non sarà in grado di fornire i servizi proposti ed in particolare specificati nelle finalità per cui è richiesto il consenso dell’Interessato, revocabile gratuitamente ed in qualsiasi momento, senza pregiudicare il trattamento effettuato prima della revoca. I dati personali conferiti dall’interessato in questa sede non sono destinati alla diffusione e potranno essere oggetto di comunicazione a terze parti in rapporto di collaborazione con il Titolare e/o per l’espletamento degli obblighi di legge, vincolate alla più assoluta riservatezza in merito a qualsiasi informazione possano venire a conoscenza, nel rispetto di tutte le prescrizioni e le misure di sicurezza previste nell’ambito del trattamento dei dati personali, in territorio UE. I dati personali comunicati dall’interessato sono trattati per il tempo strettamente necessario ad adempiere alle specifiche finalità, ed in particolare: nel caso di trattamento per finalità di partecipazione al concorso entro il tempo strettamente necessario ad adempiere all'obbligo normativo di conservazione e/o per eventuali esigenze legali; nel caso di consenso al trattamento per le ulteriori finalità specificate, fino a revoca del consenso, in ogni caso non oltre cinque anni dal conferimento, salvo revoca anteriore e salvo rinnovo del relativo consenso. In entrambi i casi, il tempo di conservazione potrà comunque essere esteso per assolvere ad un obbligo di legge, o ad una richiesta specifica di un’Autorità pubblica o di controllo, oppure per consentire lo svolgimento di investigazioni difensive e/o la tutela giudiziaria, ove necessario.  In relazione al trattamento dei dati personali conferiti, l’interessato ha diritto di ottenere l'accesso, la rettifica, la cancellazione degli stessi, la limitazione del trattamento che lo riguarda o di opporsi al trattamento stesso, entro i limiti ed alle condizioni di cui agli artt. 15-22 GDPR, integralmente consultabili al sito www.garanteprivacy.it/regolamentoue, a tal fine facendone istanza direttamente al Titolare ai contatti sopra indicati, oppure scrivendo al Responsabile della Protezione dei Dati  da quest’ultimo nominato ai sensi degli artt. 37-39 GDPR (DPO) Inprivacy Srl: info@inprivacy.it , salvo in ogni caso il diritto di agire in sede giudiziaria, proporre ricorso giurisdizionale, amministrativo o extragiudiziale, nonché reclamo ad un'Autorità di controllo (Garante per la protezione dei dati personali, Piazza Venezia n. 11 - 00187 Roma, www.gpdp.it - www.garanteprivacy.it, e-mail: garante@gpdp.it, Fax: (+39) 06.69677.3785 Centralino telefonico: (+39) 06.69677.1).
+          </p>   
+          <hr>       
+          <div style="margin-top:3px; text-align:center;"><button id="gdprCloseBtn" class="email-btn" type="button">Chiudi</button></div>
+        </div>
+      </div>
+
+      <main class="chat" role="log" aria-live="polite">
+        <div id="messages" class="messages"></div>
+        <div id="typing" class="typing" aria-hidden="true" style="display:none">
+          <div class="typing-bubble">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+        </div>
+      </main>
+
+      <footer class="input-area">
+        <form id="chatForm" class="form" autocomplete="off">
+          <textarea
+            id="userInput"
+            class="input"
+            rows="1"
+            placeholder="Scrivi la tua risposta e premi Invio…"
+            aria-label="Risposta dell'utente"
+            required
+          ></textarea>
+          <button id="speakBtn" class="speak" type="button" aria-label="Parla">
+            <svg class="mic-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zm-5 8v-3h-2v3h2z"/>
+            </svg>
+            <span class="speak-label">Parla</span>
+          </button>
+          <span id="speakHint" class="speak-hint" aria-live="polite" aria-atomic="true" style="display:none"></span>
+          <button id="sendBtn" class="send" type="submit" aria-label="Invia">Invia</button>
+        </form>
+      </footer>
+      <!--<div class="tools" style="position:fixed; top:10px; right:10px; display:flex; gap:8px; align-items:center;">
+        <input id="codiciFileInput" type="file" accept=".csv,text/csv" aria-label="Seleziona CodiciAPP.csv" />
+        <button id="uploadCodiciBtn" type="button" class="email-btn" aria-label="Carica CodiciAPP.csv">Carica CodiciAPP</button>
+      </div>-->
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
