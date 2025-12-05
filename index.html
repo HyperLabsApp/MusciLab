@@ -51,8 +51,10 @@
       <div id="emailGate" class="email-gate" role="dialog" aria-modal="true" aria-label="Email richiesta" style="display:none">
         <div class="email-card">
           <div class="email-hero">
-           <img src="LogoApp.png" alt="Logo" class="banner-logo" />
-            <p></p>
+            <h2 style="font-size: 24px; font-weight: bold; color: #bd0404; align-items: right; text-align: right;">#NataleACurno</h2>
+            
+           <!--<img src="LogoApp.png" alt="Logo" class="banner-logo" />-->
+            
             <!--<div class="email-badge">Curno AI Christmas Sound</div>-->
           </div>
           <h2 class="email-title">Ciao, sono DoReMilla!</h2>
@@ -64,9 +66,9 @@
           <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">2) Crea il tuo profilo</p>
           <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">3) Inserisci la tua mail</p>          
           <div class="email-fields">
-            <input id="emailInput" class="email-input icon-email" type="email" placeholder="es. nome@dominio.it" aria-label="Indirizzo email" />
+            <input id="emailInput" class="email-input icon-email" type="email" placeholder="es. nome@dominio.it" aria-label="Indirizzo email" autocomplete="off" autocapitalize="none" spellcheck="false" name="no-store-email" />
             <br><p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">4) Riscatta il voucher in app e inserisci il codice qui di seguito</p>
-            <input id="emailCodeInput" class="email-input icon-code" type="text" placeholder="Voucher" aria-label="Voucher" />
+            <input id="emailCodeInput" class="email-input icon-code" type="text" placeholder="Voucher" aria-label="Voucher" autocomplete="off" autocapitalize="none" spellcheck="false" name="no-store-code" />
           </div>
           <button id="emailConfirmBtn" class="email-btn" type="button">Conferma</button>
           <span id="emailError" class="email-error" aria-live="polite" style="display:none"></span>

@@ -52,6 +52,7 @@ const answers = [];
 let otpAttempts = 0;
 let otpTimerId = null;
 let otpVerifiedAt = null;
+let questionTimerId = null;
 const BASE_CATEGORIES = [
   "Ispirazione",
   "Protagonista",
@@ -422,6 +423,22 @@ function startCountdown(seconds) {
     bar.style.width = pct + "%";
     scrollToBottom();
   }, 1000);
+}
+
+function startQuestionTimer() {
+  if (questionTimerId) { try { clearTimeout(questionTimerId); } catch (_) {} questionTimerId = null; }
+  questionTimerId = setTimeout(() => {
+    renderMessage("Tempo scaduto: nessuna risposta ricevuta.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
+    waitingForUser = false;
+    updateSendDisabled();
+    try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
+    startCountdown(30);
+    setTimeout(() => { try { location.reload(); } catch (_) {} }, 30000);
+  }, 300000);
+}
+
+function clearQuestionTimer() {
+  if (questionTimerId) { try { clearTimeout(questionTimerId); } catch (_) {} questionTimerId = null; }
 }
 
 function renderMessage(text, sender = "avatar", av = null) {
@@ -1377,10 +1394,15 @@ function showQuestion1Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1490,10 +1512,15 @@ function showQuestion2Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1565,10 +1592,15 @@ function showQuestion3Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1640,10 +1672,15 @@ function showQuestion4Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1716,10 +1753,15 @@ function showQuestion5Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1791,10 +1833,15 @@ function showQuestion6Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1866,10 +1913,15 @@ function showQuestion7Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -1941,10 +1993,15 @@ function showQuestion8Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -2016,10 +2073,15 @@ function showQuestion9Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -2174,10 +2236,15 @@ function showQuestion10Suggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      try { clearQuestionTimer(); } catch (_) {}
+      try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
       autoResize();
       updateSendDisabled();
       try { userInput.focus(); } catch (_) {}
+      clearSuggestions();
+      handleUserAnswer(t);
+      tryUnmuteAvatar();
     });
     cont.appendChild(chip);
   });
@@ -2188,6 +2255,7 @@ function showQuestion10Suggestions() {
 
 function handleSubmit(e) {
   e.preventDefault();
+  clearQuestionTimer();
   handleUserAnswer(userInput.value);
   tryUnmuteAvatar();
 }
@@ -2196,6 +2264,7 @@ chatForm.addEventListener("submit", handleSubmit);
 userInput.addEventListener("keydown", (ev) => {
   if (ev.key === "Enter" && !ev.shiftKey) {
     ev.preventDefault();
+    clearQuestionTimer();
     handleUserAnswer(userInput.value);
     tryUnmuteAvatar();
   }
@@ -2294,6 +2363,7 @@ function gateAnswerUntilVideoEnds() {
     forceEnableSend = false;
     updateSendDisabled();
     userInput.focus();
+    if (!gatePhase) startQuestionTimer();
   };
   if (avatarVideo && avatarVideoAllowed) {
     if (avatarVideo.ended || (avatarVideo.duration && avatarVideo.currentTime >= avatarVideo.duration)) {
