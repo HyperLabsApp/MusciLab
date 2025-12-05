@@ -2592,7 +2592,11 @@ function showEmailGateNow() {
   if (emailGate) emailGate.style.display = "grid";
   if (emailInput) {
     emailInput.setAttribute("inputmode", "email");
-    emailInput.setAttribute("autocomplete", "email");
+    emailInput.setAttribute("autocomplete", "off");
+    emailInput.setAttribute("autocapitalize", "none");
+    emailInput.setAttribute("spellcheck", "false");
+    emailInput.setAttribute("name", "no-store-email-" + Date.now());
+    try { emailInput.value = ""; } catch (_) {}
     emailInput.focus();
     try { emailInput.setSelectionRange((emailInput.value || "").length, (emailInput.value || "").length); } catch (_) {}
   }
