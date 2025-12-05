@@ -177,18 +177,19 @@ if (SpeechRec) {
     let finalText = "";
     let interimText = "";
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const transcript = event.results[i][0].transcript;
-      if (event.results[i].isFinal) {
-        finalText += transcript + " ";
-      } else {
-        interimText = transcript;
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalText += t + " ";
+      else interimText = t;
+    }
+    const finalClean = sanitizeForbidden(finalText.trim());
+    const norm = (s) => s.trim().replace(/\s+/g, " ").toLowerCase();
+    if (finalClean) {
+      if (!norm(recognitionBuffer).endsWith(norm(finalClean))) {
+        recognitionBuffer = (recognitionBuffer + " " + finalClean).trim();
       }
     }
-    recognitionBuffer += finalText;
-    const combined = (recognitionBuffer + interimText).trim();
-    const cleaned = sanitizeForbidden(combined);
-    recognitionBuffer = cleaned;
-    userInput.value = cleaned;
+    const combined = (recognitionBuffer + (interimText ? " " + interimText : "")).trim();
+    userInput.value = combined;
     autoResize();
     updateSendDisabled();
   };
@@ -2599,6 +2600,14 @@ function showEmailGateNow() {
     try { emailInput.value = ""; } catch (_) {}
     emailInput.focus();
     try { emailInput.setSelectionRange((emailInput.value || "").length, (emailInput.value || "").length); } catch (_) {}
+  }
+  if (emailCodeInput) {
+    emailCodeInput.setAttribute("inputmode", "text");
+    emailCodeInput.setAttribute("autocomplete", "off");
+    emailCodeInput.setAttribute("autocapitalize", "none");
+    emailCodeInput.setAttribute("spellcheck", "false");
+    emailCodeInput.setAttribute("name", "no-store-code-" + Date.now());
+    try { emailCodeInput.value = ""; } catch (_) {}
   }
 }
 
