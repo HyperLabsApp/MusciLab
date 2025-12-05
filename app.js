@@ -145,7 +145,7 @@ function containsForbidden(text) {
   return false;
 }
 const introLines = [
-  "Ci siamo! Adesso puoi creare la tua canzone. Rispondi alle 6 domande, scegliendo tra le proposte oppure consiglia tu quello che vorresti ascoltare nel testo della canzone."
+  "Ci siamo! Adesso puoi creare la tua canzone. Rispondi alle sei domande, scegliendo tra le proposte oppure consiglia tu quello che vorresti ascoltare nel testo della canzone."
 ];
 //const introLines = [
 //  "Ehi tu! 🎁\nSì, proprio tu che ami il Natale! ✨\nHai mai pensato… di creare la tua canzone di Natale?\nUna canzone tutta tua, piena di emozioni, suoni e magia? 🎶\nBene! Oggi diventi tu il compositore del Natale! 😍\nIo ti farò dieci domande super speciali… e con le tue risposte, creeremo insieme la canzone più magica dell’anno!\nPronto? 3… 2… 1… via! 🌟"
@@ -1400,7 +1400,9 @@ function showQuestion1Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -1518,7 +1520,9 @@ function showQuestion2Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -1598,7 +1602,9 @@ function showQuestion3Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -1678,7 +1684,9 @@ function showQuestion4Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -1759,7 +1767,9 @@ function showQuestion5Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -2370,6 +2380,10 @@ function gateAnswerUntilVideoEnds() {
     forceEnableSend = false;
     updateSendDisabled();
     userInput.focus();
+    try {
+      const chips = document.querySelectorAll('.suggestion-chip');
+      chips.forEach((c) => { try { c.disabled = false; c.removeAttribute('aria-disabled'); } catch (_) {} });
+    } catch (_) {}
     if (!gatePhase) startQuestionTimer();
   };
   if (avatarVideo && avatarVideoAllowed) {
