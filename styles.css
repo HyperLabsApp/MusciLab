@@ -246,6 +246,14 @@ body {
   font-size: 0.8rem;
 }
 .suggestion-chip:hover { filter: brightness(1.05); }
+.suggestion-chip[disabled], .suggestion-chip[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(100%);
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.12);
+}
 
 .message {
   display: inline-block;

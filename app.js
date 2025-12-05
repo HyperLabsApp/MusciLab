@@ -1400,6 +1400,7 @@ function showQuestion1Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    chip.title = "Disponibile dopo il video";
     try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
       if (!waitingForUser) return;
@@ -1520,6 +1521,7 @@ function showQuestion2Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    chip.title = "Disponibile dopo il video";
     try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
       if (!waitingForUser) return;
@@ -1602,6 +1604,7 @@ function showQuestion3Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    chip.title = "Disponibile dopo il video";
     try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
       if (!waitingForUser) return;
@@ -1684,6 +1687,7 @@ function showQuestion4Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    chip.title = "Disponibile dopo il video";
     try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
       if (!waitingForUser) return;
@@ -1767,6 +1771,7 @@ function showQuestion5Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    chip.title = "Disponibile dopo il video";
     try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
       if (!waitingForUser) return;
@@ -1849,7 +1854,9 @@ function showQuestion6Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -1929,7 +1936,9 @@ function showQuestion7Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -2009,7 +2018,9 @@ function showQuestion8Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -2089,7 +2100,9 @@ function showQuestion9Suggestions() {
     chip.type = "button";
     chip.className = "suggestion-chip";
     chip.textContent = t;
+    try { chip.disabled = true; chip.setAttribute("aria-disabled", "true"); } catch (_) {}
     chip.addEventListener("click", () => {
+      if (!waitingForUser) return;
       try { clearQuestionTimer(); } catch (_) {}
       try { if (recognition && isRecognizing) { stoppedByUser = true; recognition.stop(); } } catch (_) {}
       userInput.value = t;
@@ -2122,6 +2135,7 @@ function showConsentSuggestions() {
     chip.className = "suggestion-chip";
     chip.textContent = t;
     chip.addEventListener("click", () => {
+      // consent immediato
       if (/^NON/i.test(t)) {
         clearSuggestions();
         const who = { id: 99, name: "Assistente", initial: "ML" };
