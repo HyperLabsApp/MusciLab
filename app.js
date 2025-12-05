@@ -2589,7 +2589,7 @@ async function verifyAppCode(code) {
 }
 
 function showEmailGateNow() {
-  if (emailGate) emailGate.style.display = "block";
+  if (emailGate) emailGate.style.display = "grid";
   if (emailInput) {
     emailInput.setAttribute("inputmode", "email");
     emailInput.setAttribute("autocomplete", "email");
