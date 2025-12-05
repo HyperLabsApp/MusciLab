@@ -98,6 +98,8 @@ const otpGate = document.getElementById("otpGate");
 const otpInput = document.getElementById("otpInput");
 const otpConfirmBtn = document.getElementById("otpConfirmBtn");
 const otpError = document.getElementById("otpError");
+const otpEmailInput = document.getElementById("otpEmailInput");
+const otpResendBtn = document.getElementById("otpResendBtn");
 // Speech Recognition setup
 let recognition = null;
 let isRecognizing = false;
@@ -663,21 +665,16 @@ function buildProducerCreatePayload(lyricsText) {
 }
 
 async function createSongAndEmail(lyricsText) {
-  const { backendUrl } = await loadSecrets();
-  const u = backendUrl.endsWith("/") ? backendUrl + "aimusic-producer-create" : backendUrl + "/aimusic-producer-create";
-  try {
+  const tryCreate = async () => {
+    const { backendUrl } = await loadSecrets();
+    const u = backendUrl.endsWith("/") ? backendUrl + "aimusic-producer-create" : backendUrl + "/aimusic-producer-create";
     const payload = buildProducerCreatePayload(lyricsText);
     const r = await fetch(u, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ payload }),
     });
-    if (!r.ok) {
-      const body = await r.text();
-      renderMessage(`Generazione audio non avviata (${r.status}): ${body.slice(0,300)}`, "avatar", { id: 99, name: "Assistente", initial: "ML" });
-      await notifyEmailWithSong("MusicLab — Testo canzone", lyricsText, "");
-      return;
-    }
+    if (!r.ok) return { taskId: "", status: r.status };
     const j = await r.json();
     const base = (j && j.result) ? j.result : (j || {});
     let taskId = String(base.task_id || base.taskId || base.id || "");
@@ -691,29 +688,39 @@ async function createSongAndEmail(lyricsText) {
         }
       }
     }
-    if (!taskId) {
-      renderMessage("Generazione audio avviata senza task id.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
-      await notifyEmailWithSong("MusicLab — Testo canzone", lyricsText, "");
-      return;
-    }
-    renderMessage("Un pò di pazienza la tua canzone sta per essere incisa…", "avatar", { id: 99, name: "Assistente", initial: "ML" });
-    const url = await pollProducerTask(taskId);
-    if (url) {
-      const appCode = userAccessCode;
-      await notifyEmailWithSong("ECCO LA TUA CANZONE DI NATALE", lyricsText, url);
-      await appendCanzoniLog(appCode, taskId, url);
-      if (String(localStorage.getItem("AIMUSIC_AUTODOWNLOAD") || "false") === "true") {
-        await autoDownloadSong(url);
+    return { taskId, status: 200 };
+  };
+  let attempts = 0;
+  let finalUrl = "";
+  let lastTask = "";
+  while (attempts < 2 && !finalUrl) {
+    try {
+      const res = await tryCreate();
+      if (!res.taskId) {
+        attempts += 1;
+        continue;
       }
-      if (String(localStorage.getItem("AIMUSIC_AUTORELOAD") || "false") === "true") {
-        startCountdown(30);
-      }
-    } else {
-      renderMessage("Generazione audio completata, ma nessun link trovato.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
-      await notifyEmailWithSong("MusicLab — Testo canzone", lyricsText, "");
+      lastTask = res.taskId;
+      renderMessage("Un pò di pazienza la tua canzone sta per essere incisa…", "avatar", { id: 99, name: "Assistente", initial: "ML" });
+      const url = await pollProducerTask(res.taskId);
+      if (url) finalUrl = url;
+      else attempts += 1;
+    } catch (_) {
+      attempts += 1;
     }
-  } catch (e) {
-    renderMessage("Errore durante la generazione audio.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
+  }
+  if (finalUrl) {
+    const appCode = userAccessCode;
+    await notifyEmailWithSong("ECCO LA TUA CANZONE DI NATALE", lyricsText, finalUrl);
+    await appendCanzoniLog(appCode, lastTask, finalUrl);
+    if (String(localStorage.getItem("AIMUSIC_AUTODOWNLOAD") || "false") === "true") {
+      await autoDownloadSong(finalUrl);
+    }
+    if (String(localStorage.getItem("AIMUSIC_AUTORELOAD") || "false") === "true") {
+      startCountdown(30);
+    }
+  } else {
+    renderMessage("Generazione audio non riuscita. Invio comunque il testo via email.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
     await notifyEmailWithSong("MusicLab — Testo canzone", lyricsText, "");
   }
 }
@@ -2570,6 +2577,52 @@ window.addEventListener("DOMContentLoaded", () => {
         submitOtpGate();
       }
     });
+  }
+  if (otpResendBtn) {
+    const resendOtpGate = async () => {
+      const vEmailRaw = String((otpEmailInput && otpEmailInput.value) || userEmail || "").trim();
+      const vEmail = vEmailRaw.toUpperCase();
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!vEmail || !re.test(vEmail)) {
+        if (otpError) otpError.textContent = "Inserisci un indirizzo email valido per il reinvio";
+        if (otpError) otpError.style.display = "block";
+        try { otpEmailInput && otpEmailInput.focus(); } catch (_) {}
+        return;
+      }
+      userEmail = vEmail;
+      userConsentOTP = String(Math.floor(Math.random() * 1000000)).padStart(6, "0");
+      try { localStorage.setItem("MUSICLAB_OTP", userConsentOTP); } catch (_) {}
+      if (otpTimerId) { try { clearTimeout(otpTimerId); } catch (_) {} otpTimerId = null; }
+      otpTimerId = setTimeout(() => {
+        renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
+        waitingForUser = false;
+        updateSendDisabled();
+        startCountdown(15);
+        setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
+      }, 300000);
+      const ok = await sendConsentOtpEmail(userEmail, userConsentOTP);
+      if (ok) {
+        const who = { id: 99, name: "Assistente", initial: "ML" };
+        renderMessage("Ho inviato un nuovo OTP all’email aggiornata.", "avatar", who);
+        if (otpError) otpError.style.display = "none";
+        if (otpGate) otpGate.style.display = "grid";
+        if (userInput) userInput.disabled = true;
+        try { otpInput && otpInput.focus(); } catch (_) {}
+      } else {
+        if (otpError) otpError.textContent = "Reinvio OTP non riuscito. Riprova";
+        if (otpError) otpError.style.display = "block";
+        try { otpEmailInput && otpEmailInput.focus(); } catch (_) {}
+      }
+    };
+    otpResendBtn.addEventListener("click", resendOtpGate);
+    if (otpEmailInput) {
+      otpEmailInput.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          resendOtpGate();
+        }
+      });
+    }
   }
 });
 function showFirstQuestionAfterIntro() {
