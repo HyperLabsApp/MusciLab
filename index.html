@@ -64,13 +64,21 @@
           <br>
           <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">1) Scarica l’app Curnopiù</p>
           <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">2) Crea il tuo profilo</p>
-          <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">3) Inserisci la tua mail</p>          
+                    
           <div class="email-fields">
-            <input id="emailInput" class="email-input icon-email" type="email" placeholder="es. nome@dominio.it" aria-label="Indirizzo email" autocomplete="off" autocapitalize="none" spellcheck="false" name="no-store-email" />
-            <br><p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">4) Riscatta il voucher in app e inserisci il codice qui di seguito</p>
+            <!--<p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">3) Inserisci la tua mail</p>          -->
+            <!--<input id="emailInput" class="email-input icon-email" type="email" placeholder="es. nome@dominio.it" aria-label="Indirizzo email" autocomplete="off" autocapitalize="none" spellcheck="false" name="no-store-email" />-->  
+            <p class="email-desc" style="font-size: 18px; font-weight: bold; color: #000000;">3) Riscatta il voucher in app e inserisci il codice qui di seguito</p>  
             <input id="emailCodeInput" class="email-input icon-code" type="text" placeholder="Voucher" aria-label="Voucher" autocomplete="off" autocapitalize="none" spellcheck="false" name="no-store-code" />
+            <div class="email-fields" style="margin-top:10px; gap:8px; align-items:center;">
+              <button id="gdprOpenBtn" class="email-btn" type="button">Leggi informativa privacy</button>
+              <label for="gdprConsentCheck" class="email-desc" style="display:inline-flex; align-items:center; gap:8px; font-weight:600;">
+                <input id="gdprConsentCheck" type="checkbox" />
+                SI ACCONSENTO
+              </label>
+            </div>
           </div>
-          <button id="emailConfirmBtn" class="email-btn" type="button">Conferma</button>
+          <button id="emailConfirmBtn" class="email-btn" type="button" disabled>Conferma</button>
           <span id="emailError" class="email-error" aria-live="polite" style="display:none"></span>
         </div>
       </div>

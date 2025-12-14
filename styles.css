@@ -185,6 +185,14 @@ body {
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(46,125,50,0.35);
 }
+.email-btn[disabled], .email-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  background: linear-gradient(180deg, rgba(150,150,150,0.9), rgba(120,120,120,0.9));
+  border-color: rgba(0,0,0,0.2);
+  color: #eee;
+}
 .email-error { display: block; margin-top: 10px; color: #c62828; font-weight: 600; }
 
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
