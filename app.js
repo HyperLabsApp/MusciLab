@@ -103,6 +103,7 @@ const otpConfirmBtn = document.getElementById("otpConfirmBtn");
 const otpError = document.getElementById("otpError");
 const otpEmailInput = document.getElementById("otpEmailInput");
 const otpResendBtn = document.getElementById("otpResendBtn");
+const restartBtn = document.getElementById("restartBtn");
 // Speech Recognition setup
 let recognition = null;
 let isRecognizing = false;
@@ -2563,6 +2564,11 @@ window.addEventListener("DOMContentLoaded", () => {
   if (gdprCloseBtn && gdprPanel) {
     gdprCloseBtn.addEventListener("click", () => {
       gdprPanel.style.display = "none";
+    });
+  }
+  if (restartBtn) {
+    restartBtn.addEventListener("click", () => {
+      try { location.reload(); } catch (_) {}
     });
   }
   if (otpConfirmBtn && otpInput) {

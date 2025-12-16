@@ -193,6 +193,15 @@ body {
   border-color: rgba(0,0,0,0.2);
   color: #eee;
 }
+.restart-btn {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1000;
+  padding: 8px 14px;
+  font-size: 16px;
+  border-radius: 12px;
+}
 .email-error { display: block; margin-top: 10px; color: #c62828; font-weight: 600; }
 
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
