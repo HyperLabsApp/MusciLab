@@ -909,7 +909,7 @@ async function requestEmailForSend() {
       updateSendDisabled();
       try { userInput.disabled = true; } catch (_) {}
       setTimeout(() => { try { location.reload(); } catch (_) {} }, 3000);
-    }, 60000);
+    }, 3600000);
   });
 }
 async function sendConsentOtpEmail(email, code) {
@@ -1254,7 +1254,7 @@ async function handleUserAnswer(text) {
           renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
           waitingForUser = false;
           updateSendDisabled();
-          startCountdown(15);
+          //startCountdown(15);
           setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
         }, 60000);
         if (otpGate) otpGate.style.display = "grid";
@@ -1269,7 +1269,7 @@ async function handleUserAnswer(text) {
           renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
           waitingForUser = false;
           updateSendDisabled();
-          startCountdown(15);
+          //startCountdown(15);
           setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
         }, 60000);
         if (otpGate) otpGate.style.display = "block";
@@ -2160,7 +2160,7 @@ function showConsentSuggestions() {
         if (userInput) userInput.disabled = true;
         if (sendBtn) sendBtn.disabled = true;
         if (speakBtn) speakBtn.disabled = true;
-        startCountdown(15);
+       // startCountdown(15);
       } else {
         clearSuggestions();
         const who = { id: 99, name: "Assistente", initial: "ML" };
@@ -2176,7 +2176,7 @@ function showConsentSuggestions() {
               renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
               waitingForUser = false;
               updateSendDisabled();
-              startCountdown(15);
+              //startCountdown(15);
               setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
             }, 60000);
             if (otpGate) otpGate.style.display = "grid";
@@ -2191,7 +2191,7 @@ function showConsentSuggestions() {
               renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
               waitingForUser = false;
               updateSendDisabled();
-              startCountdown(15);
+              //startCountdown(15);
               setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
             }, 60000);
         if (otpGate) otpGate.style.display = "grid";
@@ -2580,7 +2580,7 @@ window.addEventListener("DOMContentLoaded", () => {
           if (otpError) otpError.textContent = "Troppi tentativi: ricarico la pagina";
           if (otpError) otpError.style.display = "block";
           if (otpTimerId) { try { clearTimeout(otpTimerId); } catch (_) {} otpTimerId = null; }
-          startCountdown(15);
+          //startCountdown(15);
           setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
           return;
         }
@@ -2634,7 +2634,7 @@ window.addEventListener("DOMContentLoaded", () => {
         renderMessage("Tempo scaduto: il codice OTP è scaduto.", "avatar", { id: 99, name: "Assistente", initial: "ML" });
         waitingForUser = false;
         updateSendDisabled();
-        startCountdown(15);
+        //startCountdown(15);
         setTimeout(() => { try { location.reload(); } catch (_) {} }, 15000);
       }, 300000);
       const ok = await sendConsentOtpEmail(userEmail, userConsentOTP);
